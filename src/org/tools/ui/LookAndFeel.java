@@ -40,9 +40,15 @@ public class LookAndFeel {
     public static void setSystemLookAndFeel() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        } catch ( UnsupportedLookAndFeelException ex) {
             LOG.log(Level.SEVERE, null, ex);
-        }
+        }catch (ClassNotFoundException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+		}catch (InstantiationException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+		}catch (IllegalAccessException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+		}
     }
 
     /**
@@ -51,9 +57,18 @@ public class LookAndFeel {
     public static void setMetalLookAndFeel() {
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        } catch (UnsupportedLookAndFeelException ex) {
             LOG.log(Level.SEVERE, null, ex);
-        }
+        } catch (ClassNotFoundException e) {
+            LOG.log(Level.SEVERE, null, e);
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+            LOG.log(Level.SEVERE, null, e);
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+            LOG.log(Level.SEVERE, null, e);
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -67,8 +82,17 @@ public class LookAndFeel {
                     break;
                 }
             }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException ex) {
             LOG.log(Level.SEVERE, null, ex);
-        }
+        } catch (InstantiationException e) {
+            LOG.log(Level.SEVERE, null, e);
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+            LOG.log(Level.SEVERE, null, e);
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+            LOG.log(Level.SEVERE, null, e);
+			e.printStackTrace();
+		}
     }
 }

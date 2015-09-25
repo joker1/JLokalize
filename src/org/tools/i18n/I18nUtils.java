@@ -53,7 +53,7 @@ public class I18nUtils {
         if (!isValidLanguageCode(codes)) {
             return null;
         }
-        List<Resource> locations = new LinkedList<>();
+        List<Resource> locations = new LinkedList<Resource>();
         StringBuilder sb = new StringBuilder(100);
         for (int i = 0; i < codes.length; i++) {
             sb.append(directory);

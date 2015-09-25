@@ -171,13 +171,17 @@ public class ResourceUtils {
      * @throws IOException
      */
     public static void copyText(Resource in, Resource out) throws IOException {
-        try (BufferedReader reader = ResourceUtils.getReader(in);
-                BufferedWriter writer = ResourceUtils.getWriter(out)) {
+    	BufferedReader reader = new BufferedReader(ResourceUtils.getReader(in));
+    	BufferedWriter writer = new BufferedWriter(ResourceUtils.getWriter(out));
+    	try{
 
             int i;
             while ((i = reader.read()) != -1) {
                 writer.write(i);
             }
+        }finally{
+        	reader.close();
+        	writer.close();
         }
     }
 
@@ -190,12 +194,15 @@ public class ResourceUtils {
      * @throws IOException
      */
     public static List<String> readText(Resource in) throws IOException {
-        List<String> text = new LinkedList<>();
-        try (BufferedReader reader = ResourceUtils.getReader(in)) {
+        List<String> text = new LinkedList<String>();
+        BufferedReader reader = new BufferedReader(ResourceUtils.getReader(in));
+        try{
             String line;
             while ((line = reader.readLine()) != null) {
                 text.add(line);
             }
+        }finally{
+        	reader.close();
         }
 
         return text;
@@ -208,11 +215,14 @@ public class ResourceUtils {
      * @throws IOException
      */
     public static void writeText(List<String> text, Resource out) throws IOException {
-        try (BufferedWriter writer = ResourceUtils.getWriter(out)) {
+    	BufferedWriter writer = new BufferedWriter(ResourceUtils.getWriter(out));
+    	try{
             for (String line : text) {
                 writer.write(line);
                 writer.newLine();
             }
+        }finally{
+        	writer.close();
         }
     }
 }

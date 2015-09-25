@@ -50,8 +50,8 @@ public class ListSelectDialog extends JDialog {
     /**
      * List component from which one is selected.
      */
-    private JList<String> list;
-
+    private JList list;
+    
     /**
      * Creates a new dialog.
      *
@@ -69,7 +69,7 @@ public class ListSelectDialog extends JDialog {
         panel.setBorder(BorderFactory.createEmptyBorder(BorderSize, BorderSize, BorderSize, BorderSize));
 
         // create new List with special getPreferredScrollableViewportSize method
-        list = new JList<String>() {
+        list = new JList() {
             private static final long serialVersionUID = 1L;
             /**
              * Minimal width of viewport
@@ -129,7 +129,7 @@ public class ListSelectDialog extends JDialog {
      */
     public void populateList(final List<String> entries) {
         // setting up a JList model
-        list.setModel(new AbstractListModel<String>() {
+        list.setModel(new AbstractListModel() {
             private static final long serialVersionUID = 1L;
 
             @Override

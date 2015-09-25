@@ -45,7 +45,7 @@ public abstract class Notification {
 
     private static final int TIMER_DELAY = 100;
     protected JPanel panel;
-    private ArrayList<NotificationListener> notificationListeners = new ArrayList<>(3);
+    private ArrayList<NotificationListener> notificationListeners = new ArrayList<NotificationListener>(3);
     private float alpha = 1f;
     private Timer timer;
     private int fadeInTime, fadeOutTime, onTime;

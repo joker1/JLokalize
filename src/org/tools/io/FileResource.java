@@ -120,7 +120,7 @@ public class FileResource implements Resource {
         if (!exists() || !file.isDirectory()) {
             throw new IOException();
         }
-        List<Resource> list = new LinkedList<>();
+        List<Resource> list = new LinkedList<Resource>();
         Pattern pattern = Pattern.compile(regex);
         // call listFiles on file for getting all children that are not directories
         File[] files = file.listFiles();

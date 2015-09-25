@@ -39,7 +39,7 @@ public class CentralStatic {
     /**
      * Static HashMap (for performance) storing an object with an ID string
      */
-    private static Map<String, Object> storage = new HashMap<>();
+    private static Map<String, Object> storage = new HashMap<String, Object>();
 
     /**
      * Private constructor to prevent instantiation.

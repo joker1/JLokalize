@@ -66,7 +66,7 @@ public class ArchiveResource implements Resource {
     /**
      * List of all entries in the archive
      */
-    private Set<ZipEntry> entries = new HashSet<>(1000);
+    private Set<ZipEntry> entries = new HashSet<ZipEntry>(1000);
     /**
      * Entry in the archive we are actually pointing to
      */
@@ -190,7 +190,7 @@ public class ArchiveResource implements Resource {
             throw new IOException();
         }
         // the listFiles we are going to return
-        List<Resource> list = new LinkedList<>();
+        List<Resource> list = new LinkedList<Resource>();
         String path = getFilePath(entry);
         Pattern pattern = Pattern.compile(regex);
 

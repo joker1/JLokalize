@@ -90,7 +90,7 @@ public class CommonUtils {
      * @return The sorted List.
      */
     public static <T extends Comparable<? super T>> List<T> asSortedList(Collection<T> collection) {
-        List<T> list = new ArrayList<>(collection);
+        List<T> list = new ArrayList<T>(collection);
         Collections.sort(list);
         return list;
     }

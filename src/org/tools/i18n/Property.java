@@ -219,7 +219,7 @@ public class Property {
      * @return A set of keys.
      */
     public Set<String> getKeysAsSet(boolean recursive) {
-        Set<String> set = new HashSet<>(prop.size());
+        Set<String> set = new HashSet<String>(prop.size());
         for (Object key : prop.keySet()) {
             set.add((String) key);
         }
@@ -289,7 +289,7 @@ public class Property {
             bw.newLine();
 
             // because Properties works with Objects which are not comparable, we first explicitly convert to a List of Strings
-            List<String> keys = new ArrayList<>(prop.size());
+            List<String> keys = new ArrayList<String>(prop.size());
             for (Object key : prop.keySet()) {
                 keys.add((String) key);
             }
@@ -453,7 +453,10 @@ public class Property {
             }
             return a;
         } // end of methods for loading/saving
-        catch (InstantiationException | IllegalAccessException ex) {
+        catch ( IllegalAccessException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+        }
+        catch(InstantiationException ex){
             LOG.log(Level.SEVERE, null, ex);
         }
         return null;

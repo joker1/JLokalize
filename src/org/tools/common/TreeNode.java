@@ -50,7 +50,7 @@ public class TreeNode<T> {
     /**
      * A list of children nodes.
      */
-    private List<TreeNode<T>> children = new LinkedList<>();
+    private List<TreeNode<T>> children = new LinkedList<TreeNode<T>>();
 
     /**
      * Set the data object associated with this node.
@@ -303,7 +303,7 @@ public class TreeNode<T> {
      * @return The list.
      */
     public List<TreeNode<T>> subTreeNodesList() {
-        List<TreeNode<T>> list = new LinkedList<>();
+        List<TreeNode<T>> list = new LinkedList<TreeNode<T>>();
         list.add(this);
         for (TreeNode<T> node : children) {
             list.addAll(node.subTreeNodesList());
@@ -465,7 +465,7 @@ public class TreeNode<T> {
      * @return A TreePath to this node.
      */
     public static <T> TreePath getPathFor(TreeNode<T> node) {
-        List<Object> list = new ArrayList<>(5);
+        List<Object> list = new ArrayList<Object>(5);
 
         // add all parent nodes to the list
         TreeNode<T> n = node;
