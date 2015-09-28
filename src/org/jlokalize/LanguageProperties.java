@@ -15,7 +15,8 @@
 package org.jlokalize;
 
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Set;
 import org.tools.common.CommonUtils;
@@ -38,7 +39,7 @@ public class LanguageProperties {
     /** The underlying properties structure to load and save and keep the originals. */
     private Property prop = new Property();
     /** The more versatile (than Property) map holding the key / text pairs (can also have null which we use for deleted keys) */
-    private HashMap<String, String> map = new HashMap<String, String>(200);
+    private HashMap<String, String> map = new LinkedHashMap<String, String>(200);
     /* Base name, i.e. project identifier */
     private String base;
     /** Clear name in the actual Locale, depends on language, country, variant and current Locale */
@@ -394,7 +395,7 @@ public class LanguageProperties {
     public Set<String> getAllTextKeysAsSet() {
         Set<String> set = map.keySet();
         // we need to copy it once more (otherwise iterating over it and deleting results in a ConcurrentModificationException)
-        Set<String> newset = new HashSet<String>(200);
+        Set<String> newset = new LinkedHashSet<String>(200);
         for (String key : set) {
             // if (!key.endsWith(commentID) && map.get(key) != null) {
             if (!key.endsWith(commentID)) {

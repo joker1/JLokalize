@@ -37,7 +37,7 @@ import org.tools.i18n.PropertyWithStats;
  * and the parent/master node including deleted keys (this is handled by the language
  * structure itself). However the status depends on the existence in either of these
  * language structures and on the modified flag. Not only a key is stored but also
- * a text, comment pair. They are always sorted alphabetically.
+ * a text, comment pair. Optionally, keys are sorted alphabetically.
  * 
  * To ensure that this is done right is quite a tough task.
  *
@@ -56,6 +56,8 @@ public class KeysTableModel extends AbstractTableModel {
     private int activeRow = -1;
     /** Progress bar which is located below the keys table. */
     private final JProgressBar statusProgressBar;
+    /** Whether keys should be sorted alphabetically. */
+    private static boolean sortKeys = true;
 
     /**
      * Constructor importing the progress bar (so we can control it from here)
@@ -66,6 +68,13 @@ public class KeysTableModel extends AbstractTableModel {
         this.statusProgressBar = statusProgressBar;
     }
 
+    /**
+     * Enables or disables alphabetical key sorting. 
+     */
+    public static void setKeySorting(boolean b) {
+        sortKeys = b;
+    }
+    
     // begin of AbstractTableModel implementation specific methods    
     /**
      * Determines the number of rows in the table.
@@ -303,7 +312,7 @@ public class KeysTableModel extends AbstractTableModel {
         // if it is not in the list, add it and re-sort 
         if (!keys.contains(key)) {
             keys.add(key);
-            Collections.sort(keys, String.CASE_INSENSITIVE_ORDER);
+            maybeSortKeys();
             // after resorting nothing is selected
             activeRow = -1;
             // signal that everything has changed
@@ -374,7 +383,7 @@ public class KeysTableModel extends AbstractTableModel {
         keys.add(newKey);
 
         // need to sort again
-        Collections.sort(keys, String.CASE_INSENSITIVE_ORDER);
+        maybeSortKeys();
 
         // selection will be on new key
         activeRow = keys.indexOf(newKey);
@@ -493,7 +502,7 @@ public class KeysTableModel extends AbstractTableModel {
         // convert to list
         keys.addAll(keySet);
         // sort keys list
-        Collections.sort(keys, String.CASE_INSENSITIVE_ORDER);
+        maybeSortKeys();
 
         // update status bar
         updateProgressBar();
@@ -501,6 +510,11 @@ public class KeysTableModel extends AbstractTableModel {
         // signal updates to keys and column names (this is only done by fireTableStructureChanged() )
         fireTableDataChanged();
         fireTableStructureChanged();
-
-    }    
+    }
+ 
+    private void maybeSortKeys() {
+        if (sortKeys) {
+            Collections.sort(keys, String.CASE_INSENSITIVE_ORDER);
+        }
+    }
 }

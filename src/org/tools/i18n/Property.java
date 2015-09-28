@@ -18,8 +18,8 @@ package org.tools.i18n;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -126,7 +126,7 @@ public class Property {
         Object val = prop.getProperty(key);
         if (val instanceof List) {
             // duplicate keys result in multiple values -- return last one
-            List list = (List) val;
+            List<?> list = (List<?>) val;
             return (String) (list.isEmpty()? "" : list.get(list.size() - 1));
         } else {
             // returns null if property not found
@@ -229,7 +229,8 @@ public class Property {
      * @return A set of keys.
      */
     public Set<String> getKeysAsSet(boolean recursive) {
-        Set<String> set = new HashSet<String>(100);
+        // Use a Linked hash set to preserve key order
+        Set<String> set = new LinkedHashSet<String>(100);
         for (Iterator<String> i = prop.getKeys(); i.hasNext(); ) {
             set.add(i.next());
         }

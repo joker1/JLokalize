@@ -99,8 +99,8 @@ public class Main {
             // loading all available dictionaries
             setupSpellchecker();
 
-            // set custom .comment suffix
-            setupCommentSuffix();
+            // process static configuration options
+            processConfigurationOptions();
 
             // all setups done, createAndRun the main frame, i.e. the editor frame
             EditorFrame mainFrame = new EditorFrame();
@@ -154,15 +154,20 @@ public class Main {
     }
 
     /**
-     * Sets the suffix to use for comments. 
+     * Processes static configuration options, including:
+     *  - Suffix to use for comments
+     *  - Alphabetical sorting of keys
      */
-    private static void setupCommentSuffix() {
+    private static void processConfigurationOptions() {
         String suffix = Main.options.get("properties.comment.suffix");
         if (suffix != null) {
             LanguageProperties.setCommentSuffix(suffix);
         }
-    }
 
+        String val = Main.options.get("properties.sort");
+        boolean sort = (val == null) || "true".equalsIgnoreCase(val);
+        KeysTableModel.setKeySorting(sort);
+    }
 
     /**
      * Setup for the configuration. If an options file (StatProperty) is in the
