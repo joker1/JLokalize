@@ -3,8 +3,13 @@
     <description>JLokalize</description>
 
 	<property name="src" location="${basedir}/src"/>
+	<property name="lib" location="${basedir}/lib"/>
 	<property name="bin" location="${basedir}/bin"/>
 	<property name="dist" location="${basedir}/dist"/>
+	
+	<path id="libs">
+		<fileset dir="${lib}" includes="*.jar"/>
+	</path>
 	
     <target name="all" depends="clean,dist"/>
 
@@ -14,9 +19,9 @@
 	</target>
 
     <target name="compile" depends="init">
-        <javac includeantruntime="false" srcdir="${src}" destdir="${bin}"/>
+        <javac includeantruntime="false" srcdir="${src}" destdir="${bin}" classpathref="libs"/>
 		<copy todir="${bin}">
-			<fileset dir="${src}" includes="icons/**, config/*, lang/*"/>
+			<fileset dir="${src}" excludes="**/*.java"/>
 		</copy>
     </target>
        
@@ -25,6 +30,9 @@
         	<manifest>
         		<attribute name="Main-Class" value="org.jlokalize.Main"/>
         	</manifest>
+        	<zipfileset src="${lib}/commons-configuration-1.10.jar" excludes="META-INF/**"/>
+        	<zipfileset src="${lib}/commons-lang-2.6.jar" excludes="META-INF/**"/>
+        	<zipfileset src="${lib}/commons-logging-1.2.jar" excludes="META-INF/**"/>
         </jar>
     </target>
     

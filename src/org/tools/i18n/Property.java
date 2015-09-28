@@ -16,19 +16,16 @@
  */
 package org.tools.i18n;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.tools.io.Resource;
 
 /**
@@ -54,7 +51,7 @@ public class Property {
     /**
      * Underlying Property object
      */
-    private Properties prop;
+    private PropertiesConfiguration prop;
     /**
      * The resource location for loading/saving.
      */
@@ -64,7 +61,8 @@ public class Property {
      * Creates new instance.
      */
     public Property() {
-        prop = new Properties();
+        prop = new PropertiesConfiguration();
+        prop.setDelimiterParsingDisabled(true);
     }
 
     /**
@@ -124,8 +122,16 @@ public class Property {
         if (!prop.containsKey(key) && parent != null) {
             return parent.get(key);
         }
-        // returns null if property not found
-        return prop.getProperty(key);
+        
+        Object val = prop.getProperty(key);
+        if (val instanceof List) {
+            // duplicate keys result in multiple values -- return last one
+            List list = (List) val;
+            return (String) (list.isEmpty()? "" : list.get(list.size() - 1));
+        } else {
+            // returns null if property not found
+            return (String) val;
+        }
     }
 
     /**
@@ -138,7 +144,7 @@ public class Property {
      */
     public void put(String key, String value) {
         if (key != null && value != null) {
-            prop.put(key, value);
+            prop.setProperty(key, value);
         }
     }
 
@@ -174,7 +180,11 @@ public class Property {
      * @return True if the key was existing.
      */
     public boolean removeKey(String key) {
-        return prop.remove(key) != null;
+        if (!prop.containsKey(key)) {
+            return false;
+        }
+        prop.clearProperty(key);
+        return true;
     }
 
     /**
@@ -219,9 +229,9 @@ public class Property {
      * @return A set of keys.
      */
     public Set<String> getKeysAsSet(boolean recursive) {
-        Set<String> set = new HashSet<String>(prop.size());
-        for (Object key : prop.keySet()) {
-            set.add((String) key);
+        Set<String> set = new HashSet<String>(100);
+        for (Iterator<String> i = prop.getKeys(); i.hasNext(); ) {
+            set.add(i.next());
         }
         // Should we include also from the parent?
         if (recursive == true && parent != null) {
@@ -252,6 +262,9 @@ public class Property {
         } catch (IOException ex) {
             LOG.log(Level.SEVERE, null, ex);
             return false;
+        } catch (ConfigurationException e) {
+            LOG.log(Level.SEVERE, null, e);
+            return false;
         }
         return true;
     }
@@ -272,134 +285,15 @@ public class Property {
             return false;
         }
         try {
-            /**
-             * We would like to save them in alphabetical order in the output
-             * file, so the file is editable by humans more easily, but it turns
-             * out that Properties store method can't do it, since it uses a
-             * Hashtable, i.e. an Enumeration from a Hashtable, to loop over the
-             * keys in it's store function. Therefore sorting the keys is not
-             * possible without overwriting the store function which could break
-             * compatibility with future releases of Property.
-             */
-            // prop.store(location.getOutputStream(), "saved by org.tools.i18n.Property");
-            // to have this feature we will just copy from the source of java.util.Properties
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(location.getOutputStream(), "8859_1"));
-
-            bw.write("#" + new Date().toString());
-            bw.newLine();
-
-            // because Properties works with Objects which are not comparable, we first explicitly convert to a List of Strings
-            List<String> keys = new ArrayList<String>(prop.size());
-            for (Object key : prop.keySet()) {
-                keys.add((String) key);
-            }
-            // then we sort
-            Collections.sort(keys);
-            // now walk through and save
-            for (String key : keys) {
-                String val = (String) prop.get(key);
-                key = saveConvertFromProperties(key, true);
-                val = saveConvertFromProperties(val, false);
-                bw.write(key + "=" + val);
-                bw.newLine();
-            }
-            bw.flush();
-
+            prop.save(location.getOutputStream());
+        } catch (ConfigurationException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            return false;
         } catch (IOException ex) {
             LOG.log(Level.SEVERE, null, ex);
             return false;
         }
         return true;
-    }
-
-    /**
-     * Private helper function needed for alphabetical writing of keys. Copied
-     * from the java source: java.util.Properties.
-     *
-     * @param key
-     * @param b
-     * @return
-     */
-    private static String saveConvertFromProperties(String text, boolean escapeSpace) {
-        int len = text.length();
-        int bufLen = len * 2;
-        if (bufLen < 0) {
-            bufLen = Integer.MAX_VALUE;
-        }
-        StringBuilder outBuffer = new StringBuilder(bufLen);
-
-        for (int x = 0; x < len; x++) {
-            char aChar = text.charAt(x);
-            // Handle common case first, selecting largest block that
-            // avoids the specials below
-            if ((aChar > 61) && (aChar < 127)) {
-                if (aChar == '\\') {
-                    outBuffer.append('\\');
-                    outBuffer.append('\\');
-                    continue;
-                }
-                outBuffer.append(aChar);
-                continue;
-            }
-            switch (aChar) {
-                case ' ':
-                    if (x == 0 || escapeSpace) {
-                        outBuffer.append('\\');
-                    }
-                    outBuffer.append(' ');
-                    break;
-                case '\t':
-                    outBuffer.append('\\');
-                    outBuffer.append('t');
-                    break;
-                case '\n':
-                    outBuffer.append('\\');
-                    outBuffer.append('n');
-                    break;
-                case '\r':
-                    outBuffer.append('\\');
-                    outBuffer.append('r');
-                    break;
-                case '\f':
-                    outBuffer.append('\\');
-                    outBuffer.append('f');
-                    break;
-                case '=': // Fall through
-                case ':': // Fall through
-                case '#': // Fall through
-                case '!':
-                    outBuffer.append('\\');
-                    outBuffer.append(aChar);
-                    break;
-                default:
-                    if (((aChar < 0x0020) || (aChar > 0x007e))) {
-                        outBuffer.append('\\');
-                        outBuffer.append('u');
-                        outBuffer.append(toHex((aChar >> 12) & 0xF));
-                        outBuffer.append(toHex((aChar >> 8) & 0xF));
-                        outBuffer.append(toHex((aChar >> 4) & 0xF));
-                        outBuffer.append(toHex(aChar & 0xF));
-                    } else {
-                        outBuffer.append(aChar);
-                    }
-            }
-        }
-        return outBuffer.toString();
-    }
-    /**
-     * A table of hex digits
-     */
-    private static final char[] hexDigit = {
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
-    };
-
-    /**
-     * Convert a nibble to a hex character
-     *
-     * @param	nibble	the nibble to convert.
-     */
-    private static char toHex(int nibble) {
-        return hexDigit[(nibble & 0xF)];
     }
 
     /**
@@ -463,3 +357,4 @@ public class Property {
     }
     // end of methods for loading/saving
 }
+
