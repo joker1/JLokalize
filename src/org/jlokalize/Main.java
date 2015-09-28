@@ -99,6 +99,9 @@ public class Main {
             // loading all available dictionaries
             setupSpellchecker();
 
+            // set custom .comment suffix
+            setupCommentSuffix();
+
             // all setups done, createAndRun the main frame, i.e. the editor frame
             EditorFrame mainFrame = new EditorFrame();
             mainFrame.setVisible(true);
@@ -149,6 +152,17 @@ public class Main {
             Main.options.put("pref.dictionary.use", "false");
         }
     }
+
+    /**
+     * Sets the suffix to use for comments. 
+     */
+    private static void setupCommentSuffix() {
+        String suffix = Main.options.get("properties.comment.suffix");
+        if (suffix != null) {
+            LanguageProperties.setCommentSuffix(suffix);
+        }
+    }
+
 
     /**
      * Setup for the configuration. If an options file (StatProperty) is in the

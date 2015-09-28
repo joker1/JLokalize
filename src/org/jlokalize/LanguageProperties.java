@@ -34,7 +34,7 @@ import org.tools.io.Resource;
 public class LanguageProperties {
 
     /** Default ending of a key that is a comment. Regular keys cannot end with this. */
-    private static final String commentID = ".comment";
+    private static String commentID = ".comment";
     /** The underlying properties structure to load and save and keep the originals. */
     private Property prop = new Property();
     /** The more versatile (than Property) map holding the key / text pairs (can also have null which we use for deleted keys) */
@@ -50,6 +50,16 @@ public class LanguageProperties {
 
     /* For creating new languages */
     public LanguageProperties() {
+    }
+
+    /**
+     * Sets the suffix to use for comments.
+     */
+    public static void setCommentSuffix(String suffix) {
+        if (!suffix.startsWith(".")) {
+            suffix = "." + suffix;
+        }
+        LanguageProperties.commentID = suffix;
     }
 
     /**
