@@ -278,7 +278,14 @@ public class LanguageProperties {
      */
     public void putKeyComment(String key, String comment) {
         if (!key.endsWith(commentID)) {
-            map.put(key + commentID, comment);
+            if (comment != null && comment.length() > 0) {
+                map.put(key + commentID, comment);
+            } else {
+                // mark comment as empty, if present
+                if (map.containsKey(key + commentID)) {
+                    map.put(key + commentID, null);
+                }
+            }
         }
     }
 
@@ -344,8 +351,8 @@ public class LanguageProperties {
         if (!map.get(key).equals(prop.get(key))) {
             return true;
         }
-        // comment text was newly added
-        if (!prop.containsKey(key + commentID) && map.containsKey(key + commentID)) {
+        // comment text was newly added (and is not empty)
+        if (!prop.containsKey(key + commentID) && map.get(key + commentID) != null) {
             return true;
         }
         // comment was changed

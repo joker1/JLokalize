@@ -252,7 +252,8 @@ public class KeysTableModel extends AbstractTableModel {
                 prop.putKeyText(key, text);
                 changed = true;
             }
-            if (!comment.equals(oldComment) && comment.length() > 0) {
+            // comments can be updated and also removed
+            if (!comment.equals(oldComment)) {
                 prop.putKeyComment(key, comment);
                 changed = true;
             }
