@@ -343,8 +343,8 @@ public class Property {
                 a.load();
                 if (b != null) {
                     a.setParent(b);
-                    b = a;
                 }
+                b = a;
             }
             return a;
         } // end of methods for loading/saving
