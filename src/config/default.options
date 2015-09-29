@@ -13,7 +13,7 @@ split.pane.divide.editing=300
 program.open.default.directory=
 window.location.x=50
 pref.dictionary.use=true
-program.version=1.1
+program.version=1.2-ing
 properties.comment.suffix=_comment
 properties.sort=false
-
+properties.lineSeparator=unix
