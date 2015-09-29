@@ -356,9 +356,7 @@ public class LanguageProperties {
     }
 
     /**
-     * Restores the behavior of a key as it was during loading. First we remove
-     * completely the entries, then we copy from the original, but only if the
-     * original contains such a key.
+     * Restores the behavior of a key as it was during loading.
      *
      * @param key The key to restore.
      */
@@ -366,15 +364,18 @@ public class LanguageProperties {
         if (key.endsWith(commentID)) {
             return;
         }
-        // first remove what we have there
-        map.remove(key);
-        map.remove(key + commentID);
-        // then copy from prop if there is a entry
         if (prop.containsKey(key)) {
+            // restore from prop
             putKeyText(key, prop.get(key));
             if (prop.containsKey(key + commentID)) {
                 putKeyComment(key, prop.get(key + commentID));
+            } else {
+                map.remove(key + commentID);
             }
+        } else {
+            // otherwise remove
+            map.remove(key);
+            map.remove(key + commentID);
         }
     }
 
