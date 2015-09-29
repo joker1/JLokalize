@@ -34,6 +34,8 @@ import org.tools.io.Resource;
  */
 public class LanguageProperties {
 
+    /** Line separator. */
+    private static String lineSeparator = null;
     /** Default ending of a key that is a comment. Regular keys cannot end with this. */
     private static String commentID = ".comment";
     /** The underlying properties structure to load and save and keep the originals. */
@@ -49,8 +51,11 @@ public class LanguageProperties {
     /** Is master structure or not */
     private boolean master = false;
 
-    /* For creating new languages */
-    public LanguageProperties() {
+    /**
+     * Sets the line separator to use for all LanguageProperties.
+     */
+    public static void setLineSeparator(String separator) {
+    	LanguageProperties.lineSeparator = separator;
     }
 
     /**
@@ -63,6 +68,13 @@ public class LanguageProperties {
         LanguageProperties.commentID = suffix;
     }
 
+    /* For creating new languages */
+    public LanguageProperties() {
+        if (lineSeparator != null) {
+            prop.setLineSeparator(lineSeparator);
+        }
+    }
+
     /**
      * Creates a language structure with a property already set. Copies to map.
      * Is used for creating languages from a file.
@@ -70,6 +82,9 @@ public class LanguageProperties {
      * @param prop The property.
      */
     public LanguageProperties(Property prop) {
+        if (lineSeparator != null) {
+            prop.setLineSeparator(lineSeparator);
+        }
         this.prop = prop;
         copyToMap();
     }

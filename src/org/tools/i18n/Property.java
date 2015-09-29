@@ -66,6 +66,14 @@ public class Property {
     }
 
     /**
+     * Sets the line separator for this Property instance. By default,
+     * the platform specific line separator is used.
+     */
+    public void setLineSeparator(String separator) {
+        prop.getLayout().setLineSeparator(separator);
+    }
+
+    /**
      * Sets the parent.
      *
      * @param parent New parent.

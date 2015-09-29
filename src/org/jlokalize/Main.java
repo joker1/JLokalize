@@ -154,9 +154,11 @@ public class Main {
     }
 
     /**
-     * Processes static configuration options, including:
+     * Setup configuration options related to the properties file
+     * format, including:
      *  - Suffix to use for comments
      *  - Alphabetical sorting of keys
+     *  - Line separator
      */
     private static void processConfigurationOptions() {
         String suffix = Main.options.get("properties.comment.suffix");
@@ -167,6 +169,13 @@ public class Main {
         String val = Main.options.get("properties.sort");
         boolean sort = (val == null) || "true".equalsIgnoreCase(val);
         KeysTableModel.setKeySorting(sort);
+
+        val = Main.options.get("properties.lineSeparator");
+        if ("unix".equalsIgnoreCase(val)) {
+            LanguageProperties.setLineSeparator("\n");
+        } else if ("windows".equalsIgnoreCase(val)) {
+            LanguageProperties.setLineSeparator("\r\n");
+        }
     }
 
     /**
