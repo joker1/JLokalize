@@ -349,7 +349,7 @@ public class LanguageProperties {
             return true;
         }
         // comment was changed
-        if (prop.containsKey(key) && prop.get(key).equals(map.get(key + commentID))) {
+        if (prop.containsKey(key + commentID) && !prop.get(key + commentID).equals(map.get(key + commentID))) {
             return true;
         }
         return false;
