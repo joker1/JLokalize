@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -65,6 +66,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+
 import org.jlokalize.KeyEntry;
 import org.jlokalize.KeysTableModel;
 import org.jlokalize.KeysTableRenderer;
@@ -97,9 +99,9 @@ public class EditorFrame extends JFrame {
     /** Maximal length of last opened projects list */
     private static final int MAX_LAST_OPENED = 10;
     /** Last opened files list */
-    private List<String> lastOpened = new LinkedList<String>();
+    private final List<String> lastOpened = new LinkedList<String>();
     /** Everything project specific, only one at a time. */
-    private LanguageTreeProject project = new LanguageTreeProject();
+    private final LanguageTreeProject project = new LanguageTreeProject();
 
     /**
      * Initializes a new main editor frame. Populates the frame. Implements the
@@ -375,7 +377,8 @@ public class EditorFrame extends JFrame {
         setIconImage(new ImageIcon(getClass().getResource("/icons/jlokalize.png")).getImage());
         setMinimumSize(new Dimension(400, 400));
         addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent evt) {
+            @Override
+			public void windowClosing(WindowEvent evt) {
                 formWindowClosing(evt);
             }
         });
@@ -389,7 +392,8 @@ public class EditorFrame extends JFrame {
         newButton.setHorizontalTextPosition(SwingConstants.CENTER);
         newButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         newButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 newMenuItemActionPerformed(evt);
             }
         });
@@ -401,7 +405,8 @@ public class EditorFrame extends JFrame {
         openButton.setHorizontalTextPosition(SwingConstants.CENTER);
         openButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         openButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 openMenuItemActionPerformed(evt);
             }
         });
@@ -414,7 +419,8 @@ public class EditorFrame extends JFrame {
         nextKeyButton.setHorizontalTextPosition(SwingConstants.CENTER);
         nextKeyButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         nextKeyButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 nextKeyButtonActionPerformed(evt);
             }
         });
@@ -426,7 +432,8 @@ public class EditorFrame extends JFrame {
         nextNewKeyButton.setHorizontalTextPosition(SwingConstants.CENTER);
         nextNewKeyButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         nextNewKeyButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 nextNewKeyButtonActionPerformed(evt);
             }
         });
@@ -439,7 +446,8 @@ public class EditorFrame extends JFrame {
         newLangButton.setHorizontalTextPosition(SwingConstants.CENTER);
         newLangButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         newLangButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 newLangButtonActionPerformed(evt);
             }
         });
@@ -451,7 +459,8 @@ public class EditorFrame extends JFrame {
         removeLangButton.setHorizontalTextPosition(SwingConstants.CENTER);
         removeLangButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         removeLangButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 removeLangButtonActionPerformed(evt);
             }
         });
@@ -462,7 +471,8 @@ public class EditorFrame extends JFrame {
         setMasterButton.setHorizontalTextPosition(SwingConstants.CENTER);
         setMasterButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         setMasterButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 setMasterButtonActionPerformed(evt);
             }
         });
@@ -474,7 +484,8 @@ public class EditorFrame extends JFrame {
         newKeyButton.setHorizontalTextPosition(SwingConstants.CENTER);
         newKeyButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         newKeyButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 newKeyButtonActionPerformed(evt);
             }
         });
@@ -485,7 +496,8 @@ public class EditorFrame extends JFrame {
         removeKeyButton.setHorizontalTextPosition(SwingConstants.CENTER);
         removeKeyButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         removeKeyButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 removeKeyButtonActionPerformed(evt);
             }
         });
@@ -496,7 +508,8 @@ public class EditorFrame extends JFrame {
         renameKeyButton.setHorizontalTextPosition(SwingConstants.CENTER);
         renameKeyButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         renameKeyButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 renameKeyButtonActionPerformed(evt);
             }
         });
@@ -508,7 +521,8 @@ public class EditorFrame extends JFrame {
         revertKeyButton.setHorizontalTextPosition(SwingConstants.CENTER);
         revertKeyButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         revertKeyButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 revertKeyButtonActionPerformed(evt);
             }
         });
@@ -523,7 +537,8 @@ public class EditorFrame extends JFrame {
 
         languageTree.setModel(null);
         languageTree.addTreeSelectionListener(new TreeSelectionListener() {
-            public void valueChanged(TreeSelectionEvent evt) {
+            @Override
+			public void valueChanged(TreeSelectionEvent evt) {
                 languageTreeValueChanged(evt);
             }
         });
@@ -599,7 +614,8 @@ public class EditorFrame extends JFrame {
 
         useDefaultTextButton.setText("use");
         useDefaultTextButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 useDefaultTextButtonActionPerformed(evt);
             }
         });
@@ -656,7 +672,8 @@ public class EditorFrame extends JFrame {
 
         useDefaultCommentButton.setText("use");
         useDefaultCommentButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 useDefaultCommentButtonActionPerformed(evt);
             }
         });
@@ -698,7 +715,8 @@ public class EditorFrame extends JFrame {
         newMenuItem.setIcon(new ImageIcon(getClass().getResource("/icons/editor/document-new.png"))); // NOI18N
         newMenuItem.setText("New");
         newMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 newMenuItemActionPerformed(evt);
             }
         });
@@ -708,7 +726,8 @@ public class EditorFrame extends JFrame {
         openMenuItem.setIcon(new ImageIcon(getClass().getResource("/icons/editor/document-open.png"))); // NOI18N
         openMenuItem.setText("Open");
         openMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 openMenuItemActionPerformed(evt);
             }
         });
@@ -724,7 +743,8 @@ public class EditorFrame extends JFrame {
         saveMenuItem.setDisabledIcon(new ImageIcon(getClass().getResource("/icons/editor/filesave.png"))); // NOI18N
         saveMenuItem.setEnabled(false);
         saveMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 saveMenuItemActionPerformed(evt);
             }
         });
@@ -735,7 +755,8 @@ public class EditorFrame extends JFrame {
         saveAsMenuItem.setDisabledIcon(new ImageIcon(getClass().getResource("/icons/editor/filesaveas.png"))); // NOI18N
         saveAsMenuItem.setEnabled(false);
         saveAsMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 saveAsMenuItemActionPerformed(evt);
             }
         });
@@ -746,7 +767,8 @@ public class EditorFrame extends JFrame {
         closeMenuItem.setDisabledIcon(new ImageIcon(getClass().getResource("/icons/editor/stop.png"))); // NOI18N
         closeMenuItem.setEnabled(false);
         closeMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 closeMenuItemActionPerformed(evt);
             }
         });
@@ -756,7 +778,8 @@ public class EditorFrame extends JFrame {
         exitMenuItem.setIcon(new ImageIcon(getClass().getResource("/icons/editor/exit.png"))); // NOI18N
         exitMenuItem.setText("Exit");
         exitMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 exitMenuItemActionPerformed(evt);
             }
         });
@@ -769,7 +792,8 @@ public class EditorFrame extends JFrame {
         langMenuItem.setIcon(new ImageIcon(getClass().getResource("/icons/editor/bookmarks_list_add.png"))); // NOI18N
         langMenuItem.setText("Choose Language");
         langMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 langMenuItemActionPerformed(evt);
             }
         });
@@ -778,7 +802,8 @@ public class EditorFrame extends JFrame {
         optionsMenuItem.setIcon(new ImageIcon(getClass().getResource("/icons/editor/gtk-preferences.png"))); // NOI18N
         optionsMenuItem.setText("Options");
         optionsMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 optionsMenuItemActionPerformed(evt);
             }
         });
@@ -788,7 +813,8 @@ public class EditorFrame extends JFrame {
         aboutMenuItem.setIcon(new ImageIcon(getClass().getResource("/icons/editor/kfm_home.png"))); // NOI18N
         aboutMenuItem.setText("About");
         aboutMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 aboutMenuItemActionPerformed(evt);
             }
         });
@@ -894,7 +920,7 @@ public class EditorFrame extends JFrame {
      *
      * @param file The file that defines a project.
      */
-    private void openProjectAction(File file) {
+	public void openProjectAction(File file) {
         PropertyWithStats lang = CentralStatic.retrieve("lang-prop");
 
         if (!project.open(file)) {

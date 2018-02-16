@@ -27,7 +27,9 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+
 import javax.swing.JOptionPane;
+
 import org.jlokalize.ui.EditorFrame;
 import org.tools.common.CentralStatic;
 import org.tools.common.CommonUtils;
@@ -76,9 +78,9 @@ public class Main {
             // determine the jar path, ugly long expression to just get the directory of the jar file right
             URL jarURL = Main.class.getProtectionDomain().getCodeSource().getLocation();
             try {
-                jarPath = (new File(jarURL.toURI()).getParent() + ResourceUtils.Delimiter);
+                jarPath = new File(jarURL.toURI()).getParent() + ResourceUtils.Delimiter;
             } catch (URISyntaxException e) {
-                jarPath = (new File(jarURL.getPath())).getParent() + ResourceUtils.Delimiter;
+                jarPath = new File(jarURL.getPath()).getParent() + ResourceUtils.Delimiter;
             }
 
             // tell logger to use file log and to overwrite it everytimes
@@ -105,6 +107,12 @@ public class Main {
             // all setups done, createAndRun the main frame, i.e. the editor frame
             EditorFrame mainFrame = new EditorFrame();
             mainFrame.setVisible(true);
+			
+			if (args.length > 0) {
+				String filename = args[0];
+				mainFrame.openProjectAction(new File(filename));
+			}
+			
         } catch (IOException ex) {
             LOG.log(Level.SEVERE, null, ex);
         }
@@ -167,7 +175,7 @@ public class Main {
         }
 
         String val = Main.options.get("properties.sort");
-        boolean sort = (val == null) || "true".equalsIgnoreCase(val);
+        boolean sort = val == null || "true".equalsIgnoreCase(val);
         KeysTableModel.setKeySorting(sort);
 
         val = Main.options.get("properties.lineSeparator");
