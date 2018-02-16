@@ -17,8 +17,10 @@ package org.jlokalize;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
+
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+
 import org.tools.common.CentralStatic;
 import org.tools.i18n.Property;
 
@@ -56,6 +58,9 @@ public class KeysTableRenderer extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         KeysTableEntry entry = (KeysTableEntry) value;
+		if (entry == null) {
+			return this;
+		}
         Property i18n = CentralStatic.retrieve("lang-prop");
         switch (entry.status) {
             case OnlyHere:
