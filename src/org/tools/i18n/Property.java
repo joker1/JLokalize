@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.tools.io.Resource;
@@ -44,6 +45,9 @@ import org.tools.io.Resource;
 public class Property {
 
     private static final Logger LOG = Logger.getLogger(Property.class.getName());
+	
+	public static final String ENCODING = System.getProperty("jlokalize.encoding", "UTF-8");
+	
     /**
      * We can have them in a chain
      */
@@ -51,7 +55,7 @@ public class Property {
     /**
      * Underlying Property object
      */
-    private PropertiesConfiguration prop;
+    private final PropertiesConfiguration prop;
     /**
      * The resource location for loading/saving.
      */
@@ -62,6 +66,7 @@ public class Property {
      */
     public Property() {
         prop = new PropertiesConfiguration();
+		prop.setEncoding(ENCODING);
         prop.setDelimiterParsingDisabled(true);
     }
 
@@ -112,7 +117,7 @@ public class Property {
      */
     public boolean containsKey(String key, boolean recursive) {
         if (recursive == true) {
-            return prop.containsKey(key) || (parent != null && parent.containsKey(key, true));
+            return prop.containsKey(key) || parent != null && parent.containsKey(key, true);
         } else {
             return prop.containsKey(key);
         }
