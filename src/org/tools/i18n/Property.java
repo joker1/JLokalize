@@ -27,7 +27,10 @@ import java.util.logging.Logger;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.configuration.PropertiesConfiguration.IOFactory;
+import org.jlokalize.Settings;
 import org.tools.io.Resource;
+import org.tools.io.ext.ExtIOFactory;
 
 /**
  * New composition of the Properties class which extends the functionality. It
@@ -46,8 +49,6 @@ public class Property {
 
     private static final Logger LOG = Logger.getLogger(Property.class.getName());
 	
-	public static final String ENCODING = System.getProperty("jlokalize.encoding", "UTF-8");
-	
     /**
      * We can have them in a chain
      */
@@ -65,9 +66,21 @@ public class Property {
      * Creates new instance.
      */
     public Property() {
+		this(Settings.ENCODING);
+	}
+	
+	public Property(String encoding) {
+		this(encoding, new ExtIOFactory());
+	}
+	
+	public Property(String encoding, IOFactory ioFactory) {
+		super();
+		
         prop = new PropertiesConfiguration();
-		prop.setEncoding(ENCODING);
-        prop.setDelimiterParsingDisabled(true);
+		prop.setDelimiterParsingDisabled(true);
+		
+		prop.setEncoding(encoding);
+		prop.setIOFactory(ioFactory);
     }
 
     /**

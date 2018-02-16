@@ -19,7 +19,7 @@
 	</target>
 
     <target name="compile" depends="init">
-        <javac includeantruntime="false" srcdir="${src}" destdir="${bin}" classpathref="libs"/>
+        <javac includeantruntime="false" srcdir="${src}" destdir="${bin}" classpathref="libs" debug="no" />
 		<copy todir="${bin}">
 			<fileset dir="${src}" excludes="**/*.java"/>
 		</copy>
