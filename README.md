@@ -7,7 +7,6 @@ Original project: http://jlokalize.sourceforge.net/
 # Changelog
 
 ## Changes in v1.4
-----------------
 
 Add support for opening files on program startup using command line arguments.
 ```bash
