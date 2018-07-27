@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
@@ -34,6 +35,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.WindowConstants;
+
 import org.jlokalize.Main;
 import org.tools.common.CentralStatic;
 import org.tools.i18n.PropertyWithStats;
@@ -63,6 +65,7 @@ public class AboutDlg extends JDialog {
         PropertyWithStats lang = CentralStatic.retrieve("lang-prop");
         setTitle(lang.get("about.title"));
         String version = MessageFormat.format(lang.get("about.message"), Main.options.get("program.version"));
+		System.out.println(version);
         versionInfo.setText(version);
 
         websiteLink.setText(lang.get("about.website"));
@@ -124,7 +127,8 @@ public class AboutDlg extends JDialog {
 
         okButton.setText("Ok");
         okButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            @Override
+			public void actionPerformed(ActionEvent evt) {
                 okButtonActionPerformed(evt);
             }
         });

@@ -52,7 +52,7 @@ public class Main {
 
     private static final Logger LOG = Logger.getLogger(Main.class.getName());
     /** Hard coded version string, used for detecting of the options are outdated, i.e. from another version */
-    private static final String VERSION = "1.1";
+	private static final String VERSION = "1.5";
     /** A global options variable, accessible by everyone and set relatively early on. */
     public static final PropertyWithStats options = new PropertyWithStats();
     /** Path to the jar file. */
